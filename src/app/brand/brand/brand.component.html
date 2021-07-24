@@ -1,0 +1,32 @@
+<div class="container">
+    <div class="row"><h2 class="pl-3">Brandovi</h2></div>   
+  
+    <table class="table table-striped table-dark mt-3">
+      <thead>
+        <tr class="text-center">         
+          <th scope="col">Naziv</th>         
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let brand of brands">          
+          <td class="text-center">{{ brand?.name }}</td>                   
+        </tr>
+      </tbody>
+    </table>
+  
+    <div class="row">
+      <form
+        class="my-5"
+        #postForm="ngForm"
+        (ngSubmit)="addBrand(postForm)"
+      >
+        <h3>Dodaj novi brand</h3>
+        <div class="form-group">
+          <label for="name">Naziv</label>
+          <input type="text" class="form-control" id="name" name="name" ngModel />
+        </div>       
+        <button class="btn btn-primary">Dodaj</button>
+      </form>
+    </div>
+  </div>
+  
