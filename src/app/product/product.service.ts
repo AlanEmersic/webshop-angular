@@ -39,16 +39,16 @@ export class ProductService {
     );
   }
 
-  // deleteProduct(product: Product | number): Observable<Product> {
-  //   const id =
-  //     typeof product === 'number' ? product : product.id;
-  //   const url = `${this.productURL}/${id}`;
+  deleteProduct(product: Product | number): Observable<Product> {
+    const id =
+      typeof product === 'number' ? product : product.id;
+    const url = `${this.productURL}/${id}`;
 
-  //   return this.http.delete<Product>(url, this.httpOptions).pipe(
-  //     tap(() => console.log(`delete product id=${id}`)),
-  //     catchError(this.handleError<Product>('deleteProduct'))
-  //   );
-  // }
+    return this.http.delete<Product>(url, this.httpOptions).pipe(
+      tap(() => console.log(`delete product id=${id}`)),
+      catchError(this.handleError<Product>('deleteProduct'))
+    );
+  }
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {

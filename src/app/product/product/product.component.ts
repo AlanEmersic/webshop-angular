@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Brand } from 'src/app/brand/brand.model';
 import { BrandService } from 'src/app/brand/brand.service';
+import { CartService } from 'src/app/cart/cart.service';
 import { Product } from '../product.model';
 import { ProductService } from '../product.service';
 
@@ -11,51 +12,46 @@ import { ProductService } from '../product.service';
 })
 export class ProductComponent implements OnInit {
   products: any[] = [];
-  brands: any[] = [];
+  brands!: Brand[];
   textProductName!: string;
-  selectedBrand!: any;
+  selectedBrand!: Brand;
 
   constructor(
     private productService: ProductService,
-    private brandService: BrandService
+    private brandService: BrandService,
+    private cartService: CartService
   ) {}
 
   ngOnInit(): void {
     this.getProducts();
+    this.getBrands();
   }
 
   getProducts() {
-    this.brands = [];
-    this.products = [];
     this.productService.getProducts().subscribe((products) => {
+      this.products = [];
       products.forEach((product) => {
         this.brandService
           .getBrandById(product.brandId ? product.brandId : -1)
           .subscribe((brand) => {
             const brandProduct = { ...product, brandId: brand.name };
-            this.brands.push({ name: brand.name, brandId: product.brandId });
             this.products.push(brandProduct);
-
-            let arr: any[] = [];
-            this.brands.forEach((item, index) => {
-              if (arr.findIndex((i) => i.name == item.name) === -1) {
-                arr.push(item);
-              }
-            });
-            this.brands = arr;
           });
       });
     });
   }
 
+  getBrands() {
+    this.brandService.getBrands().subscribe((brands) => (this.brands = brands));
+  }
+
   addProduct(form: any) {
-    const brand = this.brands.find((b) => b.name === this.selectedBrand.name);
     const product = {
       name: form.value.name,
       price: form.value.price,
       quantity: form.value.quantity,
       description: form.value.description,
-      brandId: brand.brandId,
+      brandId: this.selectedBrand.id,
     };
 
     this.productService.addProduct(product).subscribe((product) => {
@@ -67,10 +63,14 @@ export class ProductComponent implements OnInit {
 
   deleteProduct(product: Product): void {
     this.products = this.products?.filter((p) => p !== product);
-    // this.productService.deleteProduct(product).subscribe();
+    this.productService.deleteProduct(product).subscribe();
   }
 
   addToCart(product: Product) {
-    
+    this.products = this.products?.filter((p) => p !== product);
+    const cartProduct = { productId: product.id, orderId: 1 };
+    this.cartService.addCartProduct(cartProduct).subscribe(() => {
+      this.getProducts();
+    });
   }
 }

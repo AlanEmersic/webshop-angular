@@ -19,8 +19,7 @@
 
   <table class="table table-striped table-dark mt-3">
     <thead>
-      <tr class="text-center">
-        <!-- <th scope="col">Id</th> -->
+      <tr class="text-center">        
         <th scope="col">Naziv</th>
         <th scope="col">Brand</th>
         <th scope="col">Cijena</th>
@@ -30,15 +29,18 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let product of products | product: textProductName">
-        <!-- <th scope="row">{{product.id}}</th> -->
+      <tr *ngFor="let product of products | product: textProductName">        
         <td>{{ product?.name }}</td>
         <td>{{ product?.brandId }}</td>
         <td>{{ product?.price }} kn</td>
         <td>{{ product?.quantity }}</td>
         <td>{{ product?.description }}</td>
         <td>
-          <button class="btn btn-success ml-2" (click)="addToCart(product)">
+          <button
+            class="btn btn-success ml-2"
+            (click)="addToCart(product)"
+            [disabled]="product?.quantity == 0"
+          >
             Dodaj u košaricu
           </button>
           <button class="btn btn-danger ml-2" (click)="deleteProduct(product)">
@@ -62,9 +64,16 @@
       </div>
       <div class="form-group">
         <label for="brand">Brand</label>
-        <select id="brand" class="form-control" name="brand" [(ngModel)]="selectedBrand">
+        <select
+          id="brand"
+          class="form-control"
+          name="brand"
+          [(ngModel)]="selectedBrand"
+        >
           <option selected disabled>Odaberi</option>
-          <option *ngFor="let brand of brands"  [ngValue]="brand">{{ brand.name }}</option>
+          <option *ngFor="let brand of brands" [ngValue]="brand">
+            {{ brand.name }}
+          </option>
         </select>
       </div>
       <div class="form-group">
