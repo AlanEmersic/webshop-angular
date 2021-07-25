@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Brand } from 'src/app/brand/brand.model';
 import { BrandService } from 'src/app/brand/brand.service';
 import { CartService } from 'src/app/cart/cart.service';
@@ -14,12 +14,12 @@ export class ProductComponent implements OnInit {
   products: any[] = [];
   brands!: Brand[];
   textProductName!: string;
-  selectedBrand!: Brand;
+  selectedBrand!: Brand;  
 
   constructor(
     private productService: ProductService,
     private brandService: BrandService,
-    private cartService: CartService
+    private cartService: CartService,  
   ) {}
 
   ngOnInit(): void {
@@ -67,10 +67,10 @@ export class ProductComponent implements OnInit {
   }
 
   addToCart(product: Product) {
-    this.products = this.products?.filter((p) => p !== product);
+    this.products = this.products?.filter((p) => p !== product);    
     const cartProduct = { productId: product.id, orderId: 1 };
     this.cartService.addCartProduct(cartProduct).subscribe(() => {
       this.getProducts();
-    });
+    });   
   }
 }

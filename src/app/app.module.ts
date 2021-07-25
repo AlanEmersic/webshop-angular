@@ -10,6 +10,7 @@ import { ProductComponent } from './product/product/product.component';
 import { ProductPipe } from './product/product.pipe';
 import { BrandComponent } from './brand/brand/brand.component';
 import { CartComponent } from './cart/cart/cart.component';
+import { OrderComponent } from './order/order/order.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { CartComponent } from './cart/cart/cart.component';
     ProductComponent,    
     ProductPipe,
     BrandComponent,
-    CartComponent
+    CartComponent,
+    OrderComponent
   ],
   imports: [
     BrowserModule,

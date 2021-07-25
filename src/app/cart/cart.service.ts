@@ -16,10 +16,11 @@ export class CartService {
 
   constructor(private http: HttpClient) {}
 
-  getCartProducts(): Observable<Cart[]> {
-    return this.http.get<Cart[]>(this.cartURL).pipe(
+  getCartProductsById(id: number): Observable<Cart[]> {
+    const url = `${this.cartURL}/order/${id}`;
+    return this.http.get<Cart[]>(url).pipe(
       tap(() => console.log('fetched cart products')),
-      catchError(this.handleError<Cart[]>('getCartProducts', []))
+      catchError(this.handleError<Cart[]>('getCartProductsById', []))
     );
   }
 
@@ -39,7 +40,7 @@ export class CartService {
       tap(() => console.log(`delete cart product id=${id}`)),
       catchError(this.handleError<Cart>('deleteCartProduct'))
     );
-  } 
+  }
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
