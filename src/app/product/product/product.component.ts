@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Brand } from 'src/app/brand/brand.model';
 import { BrandService } from 'src/app/brand/brand.service';
 import { CartService } from 'src/app/cart/cart.service';
@@ -14,12 +14,13 @@ export class ProductComponent implements OnInit {
   products: any[] = [];
   brands!: Brand[];
   textProductName!: string;
-  selectedBrand!: Brand;  
+  selectedBrand!: Brand;
+  // selectedSort!: string;
 
   constructor(
     private productService: ProductService,
     private brandService: BrandService,
-    private cartService: CartService,  
+    private cartService: CartService
   ) {}
 
   ngOnInit(): void {
@@ -27,7 +28,7 @@ export class ProductComponent implements OnInit {
     this.getBrands();
   }
 
-  getProducts() {
+  getProducts(sort = '') {
     this.productService.getProducts().subscribe((products) => {
       this.products = [];
       products.forEach((product) => {
@@ -36,9 +37,22 @@ export class ProductComponent implements OnInit {
           .subscribe((brand) => {
             const brandProduct = { ...product, brandId: brand.name };
             this.products.push(brandProduct);
+            if (sort !== '') {
+              const arr = this.products.sort((a, b) =>
+                a.selectedSort
+                  ?.toLowerCase()
+                  ?.localeCompare(b.selectedSort?.toLowerCase())
+              );
+              this.products = arr;
+            }
           });
       });
     });
+  }
+
+  sortProducts(value: string) {
+    console.log(value);
+    this.getProducts(value);
   }
 
   getBrands() {
@@ -67,10 +81,10 @@ export class ProductComponent implements OnInit {
   }
 
   addToCart(product: Product) {
-    this.products = this.products?.filter((p) => p !== product);    
+    this.products = this.products?.filter((p) => p !== product);
     const cartProduct = { productId: product.id, orderId: 1 };
     this.cartService.addCartProduct(cartProduct).subscribe(() => {
       this.getProducts();
-    });   
+    });
   }
 }

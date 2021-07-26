@@ -6,7 +6,7 @@ import { catchError, tap } from 'rxjs/operators';
 import { Product } from './product.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProductService {
   private productURL = environment.apiURL + '/products';
@@ -14,7 +14,7 @@ export class ProductService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getProducts(): Observable<Product[]> {
     return this.http.get<Product[]>(this.productURL).pipe(
@@ -40,8 +40,7 @@ export class ProductService {
   }
 
   deleteProduct(product: Product | number): Observable<Product> {
-    const id =
-      typeof product === 'number' ? product : product.id;
+    const id = typeof product === 'number' ? product : product.id;
     const url = `${this.productURL}/${id}`;
 
     return this.http.delete<Product>(url, this.httpOptions).pipe(

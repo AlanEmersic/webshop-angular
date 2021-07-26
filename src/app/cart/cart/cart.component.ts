@@ -44,8 +44,7 @@ export class CartComponent implements OnInit {
 
   orderProducts(form: any) {
     this.codeService.getCodeByName(form.value.code).subscribe((code) => {
-      const discountCode = code;
-      console.log(this.selectedPaymentMethod === 'KARTIČNO' ? 1 : 2);
+      const discountCode = code;      
       const order = {
         paymentMethodId: this.selectedPaymentMethod === 'KARTIČNO' ? 1 : 2,
         date: '20.7.2021.',

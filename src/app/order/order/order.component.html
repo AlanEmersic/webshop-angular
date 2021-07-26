@@ -1,8 +1,13 @@
 <div class="container">
-  <div class="row"><h2 class="pl-3">Nardužbe</h2></div>
+  <div class="row"><h2 class="pl-3">Narudžbe</h2></div>
 
-  <div *ngIf="orders.length === 0">Nema Nardužbi</div>
-  <table class="table table-striped table-dark mt-3" *ngIf="orders.length > 0">
+  <div *ngIf="orders.length === 0 || orders[0]?.totalPriceWithoutDiscount === 0">
+    Nema narudžbi
+  </div>
+  <table
+    class="table table-striped table-dark mt-3"
+    *ngIf="orders.length > 0 && orders[0].totalPriceWithoutDiscount > 0"
+  >
     <thead>
       <tr class="text-center">
         <th>Datum</th>
@@ -26,7 +31,7 @@
         <td>{{ order?.deliveryAddress }}</td>
         <td>{{ order?.remark }}</td>
         <td>{{ order?.cardNumber }}</td>
-        <td>{{ order?.paymentMethodId === 1 ? "KARTIČNO" : "GOTOVINSKO" }}</td>        
+        <td>{{ order?.paymentMethodId === 1 ? "KARTIČNO" : "GOTOVINSKO" }}</td>
       </tr>
     </tbody>
   </table>

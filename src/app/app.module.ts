@@ -11,6 +11,7 @@ import { ProductPipe } from './product/product.pipe';
 import { BrandComponent } from './brand/brand/brand.component';
 import { CartComponent } from './cart/cart/cart.component';
 import { OrderComponent } from './order/order/order.component';
+import { SortPipe } from './product/sort.pipe';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { OrderComponent } from './order/order/order.component';
     ProductPipe,
     BrandComponent,
     CartComponent,
-    OrderComponent
+    OrderComponent,
+    SortPipe
   ],
   imports: [
     BrowserModule,
